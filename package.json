@@ -1,0 +1,49 @@
+{
+  "name": "souvenir-et-solitude",
+  "version": "1.0.0",
+  "description": "Un projet de Floriane Turmeau",
+  "author": "Florent Bourgeois",
+  "scripts": {
+    "autoprefixer": "postcss -u autoprefixer  -u cssnano -d dist src/*.css",
+    "lint": "eslint src",
+    "uglify": "uglifyjs src/*.js -m -c -o dist/scripts.js",
+    "imagemin": "imagemin src/images/* -o dist/images",
+    "copymp3": "copyfiles -u 1 src/loop.mp3 dist",
+    "htmlmin": "copyfiles -u 1 src/index.html dist && html-minifier --collapse-whitespace dist/index.html",
+    "serve": "browser-sync start --server --serveStatic dist --files 'dist/*.css, dist/*.js, dist/*.html, !node_modules/**/*.html'",
+    "build:css": "npm run autoprefixer",
+    "build:js": "npm run lint && npm run uglify",
+    "build:images": "npm run imagemin",
+    "build:html": "npm run htmlmin",
+    "build:all": "npm run build:css && npm run build:js && npm run build:images && npm run build:html && npm run copymp3",
+    "watch:css": "onchange 'src/*.css' -- npm run build:css",
+    "watch:js": "onchange 'src/*.js' -- npm run build:js",
+    "watch:images": "onchange 'src/images/**/*' -- npm run build:images",
+    "watch:html": "onchange 'src/*.html' -- npm run build:html",
+    "watch:all": "npm-run-all -p serve watch:css watch:js watch:images watch:html",
+    "postinstall": "npm run build:all && npm run watch:all",
+    "deploy": "npm run build:all && gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/florentb/turntable.git"
+  },
+  "bugs": {
+    "url": "https://github.com/florentb/turntable/issues"
+  },
+  "homepage": "https://github.com/florentb/turntable",
+  "devDependencies": {
+    "autoprefixer": "^6.3.6",
+    "browser-sync": "^2.13.0",
+    "copyfiles": "^0.2.1",
+    "cssnano": "^3.7.0",
+    "eslint": "^2.11.1",
+    "gh-pages": "^0.11.0",
+    "html-minifier": "^2.1.3",
+    "imagemin-cli": "^3.0.0",
+    "npm-run-all": "^2.1.1",
+    "onchange": "^2.5.0",
+    "postcss-cli": "^2.5.2",
+    "uglify-js": "^2.6.2"
+  }
+}
